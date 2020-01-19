@@ -13,7 +13,7 @@ Private conString   As String
 Private conn        As ADODB.Connection
 
 Private Sub Class_Initialize()
-    conString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=""Excel 12.0 Macro;HDR=YES"";" & ThisWorkbook.FullName
+    conString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & ThisWorkbook.FullName & ";Extended Properties=""Excel 12.0 Macro;HDR=YES"";"
 End Sub
 
 Private Sub OpenConnection()
