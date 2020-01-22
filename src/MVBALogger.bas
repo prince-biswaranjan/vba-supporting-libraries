@@ -186,7 +186,7 @@ Private Function GetLogFilePath() As String
 
         rtnLogFilePath = FormatString("{0}\{1}_{2}.log", tempFolderPath, ThisWorkbook.Name, Format$(Now, "yyyymmdd"))
     Else
-        rtnLogFilePath = this.LogFilePath
+        rtnLogFilePath = FormatString("{0}\{1}_{2}.log", this.LogFilePath, ThisWorkbook.Name, Format$(Now, "yyyymmdd"))
     End If
     
     '----------------------------------------------------------------------------------------------
@@ -278,7 +278,7 @@ Public Sub WriteToLog(ByVal module As String, _
                       module, _
                       procedure, _
                       logMessage, _
-                      errNumber)
+                      IIf(errNumber, errNumber, vbNullString))
     
     Print #iFileNum, logEntry
     
