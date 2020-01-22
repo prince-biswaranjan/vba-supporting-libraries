@@ -3,4 +3,7 @@
 	<!--> Create copies of the example module below for each custom object that you want to export</-->
 	<!--module componentName="CustomExport" outputFilePath="\CustomModules\Custom"/-->
 	<module componentName="MVBADatabase" outputFilePath="\src"/>
+	<module componentName="MVBAFileSystem" outputFilePath="\src"/>
+	<module componentName="MVBALogger" outputFilePath="\src"/>
+	<module componentName="MVBAStrings" outputFilePath="\src"/>
 </modules>
