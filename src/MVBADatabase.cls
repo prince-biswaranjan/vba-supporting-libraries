@@ -9,8 +9,9 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Private conString   As String
-Private conn        As ADODB.Connection
+Private conString           As String
+Private conn                As ADODB.Connection
+Private Const MODULE_NAME   As String = "MVBADatabase"
 
 Private Sub Class_Initialize()
     conString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & ThisWorkbook.FullName & ";Extended Properties=""Excel 12.0 Macro;HDR=YES"";"
@@ -44,9 +45,12 @@ Public Function GetRecordSet(ByVal sqlQuery As String) As ADODB.Recordset
 End Function
 
 Public Sub ExecuteQuery(ByVal sqlQuery As String)
+    Const PROC_NAME As String = "ExecuteQuery"
     OpenConnection
     
     'Debug.Print sqlQuery
+    WriteToLog MODULE_NAME, PROC_NAME, "Executing Query: " & sqlQuery
+    
     With New ADODB.Command
         Set .ActiveConnection = conn
         .CommandText = sqlQuery
