@@ -198,7 +198,7 @@ End Function
 Public Sub WriteToLog(ByVal module As String, _
                         ByVal procedure As String, _
                         ByVal message As String, _
-                        ByVal logLevel As LoggingLevel, _
+                Optional ByVal logLevel As LoggingLevel = Information, _
                 Optional ByVal errNumber As Long, _
                 Optional ByVal source As String)
 ' =================================================================================================
