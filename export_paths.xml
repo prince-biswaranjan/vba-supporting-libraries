@@ -2,11 +2,11 @@
 <modules>
 	<!--> Create copies of the example module below for each custom object that you want to export</-->
 	<!--module componentName="CustomExport" outputFilePath="\CustomModules\Custom"/-->
-	<module componentName="MExcel" outputFilePath="\src"/>
-	<module componentName="MMSExcelApp" outputFilePath="\src"/>
-	<module componentName="MVBAArray" outputFilePath="\src"/>
-	<module componentName="MVBADatabase" outputFilePath="\src"/>
-	<module componentName="MVBAFileSystem" outputFilePath="\src"/>
-	<module componentName="MVBALogger" outputFilePath="\src"/>
-	<module componentName="MVBAStrings" outputFilePath="\src"/>
+	<module componentName="MExcel" 			outputFilePath="\src"/>
+	<module componentName="MMSExcelApp" 	outputFilePath="\src"/>
+	<module componentName="MVBAArray" 		outputFilePath="\src"/>
+	<module componentName="MVBADatabase" 	outputFilePath="\src"/>
+	<module componentName="MVBAFileSystem" 	outputFilePath="\src"/>
+	<module componentName="MVBALogger" 		outputFilePath="\src"/>
+	<module componentName="MVBAStrings" 	outputFilePath="\src"/>
 </modules>

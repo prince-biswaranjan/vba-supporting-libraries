@@ -35,6 +35,9 @@ Option Private Module
 ' -----------------------------------
 ' Constant declarations
 ' -----------------------------------
+
+Public Const ERR_SUCCESS                As Long = 0   ' Generic success code
+
 ' Module Level
 ' ----------------
 
@@ -57,7 +60,7 @@ Public Function ArrayToString(ByRef Arr As Variant, _
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
 
     ' ----------------------------------------------------------------------
 
@@ -69,7 +72,7 @@ PROC_EXIT:
 
     ArrayToString = sRtn
 
-    Call Trace(tlMaximum, msMODULE, sPROC, sRtn)
+    'Call Trace(tlMaximum, msMODULE, sPROC, sRtn)
     On Error GoTo 0
 
     Exit Function
@@ -78,12 +81,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
 
@@ -116,7 +119,7 @@ Public Sub BubbleSortArray(ByRef Arr As Variant, _
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
 
     ' ----------------------------------------------------------------------
     ' Determine if a multi-dim array
@@ -386,7 +389,7 @@ SORT_DESC_MULTI_ROWS:
 
 PROC_EXIT:
 
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
 
     Exit Sub
@@ -395,12 +398,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Sub
 
@@ -421,7 +424,7 @@ Public Function CollectionToArray(ByRef Col As VBA.Collection, _
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
 
     ' ----------------------------------------------------------------------
 
@@ -442,7 +445,7 @@ PROC_EXIT:
     Erase vRtn
     vRtn = Empty
 
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
 
     Exit Function
@@ -451,12 +454,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
 
@@ -479,7 +482,7 @@ Public Function CombineArrays(ParamArray Params() As Variant) As Variant
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
 
     ' ----------------------------------------------------------------------
 
@@ -511,7 +514,7 @@ PROC_EXIT:
     vAry = Empty
     vRtn = Empty
 
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
 
     Exit Function
@@ -520,12 +523,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
 
@@ -556,7 +559,7 @@ Public Function GetArrayValue(ByRef Arr As Variant, _
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, YValue & " (" & XValue & ")")
+    'Call Trace(tlMaximum, msMODULE, sPROC, YValue & " (" & XValue & ")")
 
     ' ----------------------------------------------------------------------
     ' Quit if no X or Y value provided
@@ -605,7 +608,7 @@ PROC_EXIT:
 
     GetArrayValue = vRtn
 
-    Call Trace(tlMaximum, msMODULE, sPROC, vRtn)
+    'Call Trace(tlMaximum, msMODULE, sPROC, vRtn)
     On Error GoTo 0
 
     Exit Function
@@ -614,12 +617,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
 
@@ -647,7 +650,7 @@ Public Function GetElementIndex(ByRef Arr As Variant, _
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, Element)
+    'Call Trace(tlMaximum, msMODULE, sPROC, Element)
 
     ' ----------------------------------------------------------------------
 
@@ -680,7 +683,7 @@ PROC_EXIT:
 
     GetElementIndex = lRtn
 
-    Call Trace(tlMaximum, msMODULE, sPROC, lRtn)
+    'Call Trace(tlMaximum, msMODULE, sPROC, lRtn)
     On Error GoTo 0
 
     Exit Function
@@ -689,12 +692,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
 
@@ -720,7 +723,7 @@ Public Function GetElementIndexX(ByRef Arr As Variant, _
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlVerbose, msMODULE, sPROC, Element)
+    'Call Trace(tlVerbose, msMODULE, sPROC, Element)
 
     ' ----------------------------------------------------------------------
 
@@ -740,7 +743,7 @@ PROC_EXIT:
 
     GetElementIndexX = lRtn
 
-    Call Trace(tlVerbose, msMODULE, sPROC, lRtn)
+    'Call Trace(tlVerbose, msMODULE, sPROC, lRtn)
     On Error GoTo 0
 
     Exit Function
@@ -749,12 +752,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
 
@@ -785,7 +788,7 @@ Public Function InsertElement(ByRef Arr As Variant, _
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
 
     ' ----------------------------------------------------------------------
     ' Make sure it is an array
@@ -836,7 +839,7 @@ PROC_EXIT:
     InsertElement = bRtn
 
 
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
 
     Exit Function
@@ -847,12 +850,12 @@ PROC_ERR:
 
     bRtn = False
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
 
@@ -876,7 +879,7 @@ Public Function IsAllocated(ByRef Arr As Variant) As Boolean
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
 
     ' ----------------------------------------------------------------------
     ' Quit if Arr is not an array
@@ -905,7 +908,7 @@ PROC_EXIT:
 
     IsAllocated = bRtn
 
-    Call Trace(tlMaximum, msMODULE, sPROC, bRtn)
+    'Call Trace(tlMaximum, msMODULE, sPROC, bRtn)
     On Error GoTo 0
 
     Exit Function
@@ -914,12 +917,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
 
@@ -946,7 +949,7 @@ Public Function IsEmptyArray(ByRef Arr As Variant) As Boolean
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
 
     ' ----------------------------------------------------------------------
 
@@ -983,7 +986,7 @@ PROC_EXIT:
 
     IsEmptyArray = bRtn
 
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
 
     Exit Function
@@ -992,12 +995,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
 
@@ -1022,7 +1025,7 @@ Public Function IsInArray(ByRef Arr As Variant, _
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
 
     ' ----------------------------------------------------------------------
 
@@ -1042,7 +1045,7 @@ PROC_EXIT:
 
     IsInArray = bRtn
 
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
 
     Exit Function
@@ -1051,12 +1054,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
 
@@ -1076,11 +1079,11 @@ Public Sub ListArray(ParamArray Params() As Variant)
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
 
     ' ----------------------------------------------------------------------
 
-    Debug.Print String$(glLIST_LINELEN, gsLIST_LINECHAR)
+    'Debug.Print String$(glLIST_LINELEN, gsLIST_LINECHAR)
 
     For Each vParam In Params
 
@@ -1103,13 +1106,13 @@ Public Sub ListArray(ParamArray Params() As Variant)
         End If
     Next vParam
 
-    Debug.Print String$(glLIST_LINELEN, gsLIST_LINECHAR)
+    'Debug.Print String$(glLIST_LINELEN, gsLIST_LINECHAR)
 
     ' ----------------------------------------------------------------------
 
 PROC_EXIT:
 
-    Call Trace(tlMaximum, msMODULE, sPROC, lIdx)
+    'Call Trace(tlMaximum, msMODULE, sPROC, lIdx)
     On Error GoTo 0
 
     Exit Sub
@@ -1118,12 +1121,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Sub
 
@@ -1190,7 +1193,7 @@ Public Function NumberOfElements(ByRef Arr As Variant, _
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
 
     ' ----------------------------------------------------------------------
     ' Not an array
@@ -1231,7 +1234,7 @@ PROC_EXIT:
 
     NumberOfElements = lRtn
 
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
 
     Exit Function
@@ -1240,12 +1243,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
 
@@ -1277,7 +1280,7 @@ Public Function OneDimToTwo(ByRef Arr As Variant, _
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
 
     ' ----------------------------------------------------------------------
     ' Get the size of the source
@@ -1312,7 +1315,7 @@ PROC_EXIT:
     Erase vRtn
     vRtn = Empty
 
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
 
     Exit Function
@@ -1321,12 +1324,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
 
@@ -1367,7 +1370,7 @@ Public Sub QuickSortArray(ByRef Arr As Variant, _
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
 
     ' ----------------------------------------------------------------------
     ' Get the extents of the array
@@ -1425,7 +1428,7 @@ Public Sub QuickSortArray(ByRef Arr As Variant, _
 
 PROC_EXIT:
 
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
 
     Exit Sub
@@ -1434,12 +1437,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Sub
 
@@ -1481,7 +1484,7 @@ Public Sub RemoveElement(ByRef Arr As Variant, _
 
 
     '  On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, Index)
+    'Call Trace(tlMaximum, msMODULE, sPROC, Index)
 
     ' ----------------------------------------------------------------------
 
@@ -1511,7 +1514,7 @@ Public Sub RemoveElement(ByRef Arr As Variant, _
 
 PROC_EXIT:
 
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
 
     Exit Sub
@@ -1520,12 +1523,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Sub
 
@@ -1557,7 +1560,7 @@ Public Function StringToArray(ByVal Str As String, _
 
 
     On Error GoTo PROC_ERR
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_ENTER)
 
     ' ----------------------------------------------------------------------
     ' Standard method
@@ -1595,7 +1598,7 @@ PROC_EXIT:
     Erase vRtn
     vRtn = Empty
 
-    Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
+    'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
 
     Exit Function
@@ -1604,12 +1607,12 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
 
@@ -1693,7 +1696,7 @@ PROC_EXIT:
     Erase vItems
     vItems = Empty
 
-    Call Trace(tlMaximum, msMODULE, sPROC, lItemCt)
+    'Call Trace(tlMaximum, msMODULE, sPROC, lItemCt)
     On Error GoTo 0
 
     Exit Function
@@ -1702,11 +1705,11 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    If ErrorHandler(msMODULE, sPROC) Then
-        Stop
-        Resume
-    Else
-        Resume PROC_EXIT
-    End If
+'    If ErrorHandler(msMODULE, sPROC) Then
+'        Stop
+'        Resume
+'    Else
+'        Resume PROC_EXIT
+'    End If
 
 End Function
