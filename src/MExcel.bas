@@ -216,7 +216,7 @@ Public Function GetColumnHeaderNumberDictionary(ByVal wsSheet As Worksheet, ByVa
     
     Do While Not IsEmpty(headerCell)
         If headerDictionary.Exists(Trim$(headerCell.value)) Then
-            Err.Raise 0, vbNullString, FormatString("Found duplicate key: {0}, Sheet: {1}, Address: {2}", _
+            errHandler.RaiseError C_CUSTOM_ERROR, vbNullString, PROCEDURE_NAME, FormatString("Found duplicate key: {0}, Sheet: {1}, Address: {2}", _
             Trim$(headerCell.value), wsSheet.Name, headerCell.Address)
         Else
             headerDictionary.Add Trim$(headerCell.value), headerCell.column
