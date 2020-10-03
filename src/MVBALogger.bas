@@ -200,7 +200,7 @@ Public Sub WriteToLog(ByVal module As String, _
                         ByVal message As String, _
                 Optional ByVal logLevel As LoggingLevel = Information, _
                 Optional ByVal errNumber As Long, _
-                Optional ByVal source As String)
+                Optional ByVal Source As String)
 ' =================================================================================================
 ' Description : Procedure to write to logs
 '
@@ -218,7 +218,7 @@ Public Sub WriteToLog(ByVal module As String, _
 
     Dim computerName        As String
     Dim userName            As String
-    Dim iFileNum            As Integer
+    Dim iFileNum            As Long
     Dim logFile             As String
     Dim logFileHeader       As String
     Dim logMessage          As String
@@ -274,7 +274,7 @@ Public Sub WriteToLog(ByVal module As String, _
                       computerName, _
                       userName, _
                       GetLoglevelDescription(logLevel), _
-                      IIf(Len(source) > 0, source, ThisWorkbook.Name), _
+                      IIf(Len(Source) > 0, Source, ThisWorkbook.Name), _
                       module, _
                       procedure, _
                       logMessage, _
@@ -347,8 +347,3 @@ PROC_ERR:
     
     
 End Function
-
-
-
-
-
