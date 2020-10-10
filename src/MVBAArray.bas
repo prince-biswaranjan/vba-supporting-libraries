@@ -1532,7 +1532,7 @@ PROC_ERR:
 
 End Sub
 
-Public Function StringToArray(ByVal Str As String, _
+Public Function StringToArray(ByVal str As String, _
                      Optional ByVal Delimiter As String = " ", _
                      Optional ByVal Limit As Long = -1, _
                      Optional ByVal Compare _
@@ -1567,7 +1567,7 @@ Public Function StringToArray(ByVal Str As String, _
     ' ---------------
 
     If (Len(Delimiter) > 0) Then
-        vRtn = Split(Str, Delimiter, Limit, Compare)
+        vRtn = Split(str, Delimiter, Limit, Compare)
         GoTo PROC_EXIT
     End If
 
@@ -1577,7 +1577,7 @@ Public Function StringToArray(ByVal Str As String, _
     If (Limit > 0) Then
         lLen = Limit
     Else
-        lLen = Len(Str)
+        lLen = Len(str)
     End If
 
     vRtn = Array()
@@ -1585,7 +1585,7 @@ Public Function StringToArray(ByVal Str As String, _
 
     For lPos = 1 To lLen
         lIdx = lPos - 1
-        vRtn(lIdx) = Mid$(Str, lPos, 1)
+        vRtn(lIdx) = Mid$(str, lPos, 1)
     Next lPos
 
     ' ----------------------------------------------------------------------
