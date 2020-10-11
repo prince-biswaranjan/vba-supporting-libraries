@@ -218,7 +218,7 @@ Public Sub WriteToLog(ByVal module As String, _
 
     Dim computerName        As String
     Dim userName            As String
-    Dim iFileNum            As Integer
+    Dim iFileNum            As Long
     Dim logFile             As String
     Dim logFileHeader       As String
     Dim logMessage          As String
@@ -347,8 +347,3 @@ PROC_ERR:
     
     
 End Function
-
-
-
-
-

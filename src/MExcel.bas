@@ -163,7 +163,7 @@ Public Sub FreezeSheetPanes(ByVal sheet As Worksheet, ByVal rowNumber As Long, B
     With sheet
         .Visible = xlSheetVisible
         .Activate
-        .Cells(cellRow, cellColumn).Select
+        .Cells.Item(cellRow, cellColumn).Select
     End With
     
     ActiveWindow.FreezePanes = True
@@ -191,7 +191,7 @@ End Sub
 
 
 'Returns column header as dictionary
-Public Function GetColumnHeaderNumberDictionary(ByVal wsSheet As Worksheet, ByVal headerRowNum As Integer) As Scripting.Dictionary
+Public Function GetColumnHeaderNumberDictionary(ByVal wsSheet As Worksheet, ByVal headerRowNum As Long) As Scripting.Dictionary
 ' =================================================================================================
 ' Description : Returns the header names & column numbers as a dictionary
 '
@@ -212,7 +212,7 @@ Public Function GetColumnHeaderNumberDictionary(ByVal wsSheet As Worksheet, ByVa
     
     'Variable(s) Initialization
     Set headerDictionary = New Scripting.Dictionary
-    Set headerCell = wsSheet.Cells(headerRowNum, 1)
+    Set headerCell = wsSheet.Cells.Item(headerRowNum, 1)
     
     Do While Not IsEmpty(headerCell)
         If headerDictionary.Exists(Trim$(headerCell.value)) Then
@@ -246,7 +246,7 @@ PROC_ERR:
     
 End Function
 
-Public Function GetKeyValueDictionary(ByVal ws As Worksheet, ByVal keyCol As Integer, ByVal valCol As Integer) As Scripting.Dictionary
+Public Function GetKeyValueDictionary(ByVal ws As Worksheet, ByVal keyCol As Long, ByVal valCol As Long) As Scripting.Dictionary
 ' =================================================================================================
 ' Description : Function to return the dictionary containing key value pairs of data in 2 columns
 '
@@ -267,7 +267,7 @@ Public Function GetKeyValueDictionary(ByVal ws As Worksheet, ByVal keyCol As Int
     '----------------------------------------------------------------------------------------------
     
     'Variable(s) Initialization
-    Set rngKey = ws.Cells(1, keyCol)
+    Set rngKey = ws.Cells.Item(1, keyCol)
     Set keyValueDictionary = New Scripting.Dictionary
     
     'Loop through all rng
@@ -296,6 +296,3 @@ PROC_ERR:
     
     
 End Function
-
-
-
