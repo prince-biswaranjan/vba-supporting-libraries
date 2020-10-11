@@ -197,10 +197,10 @@ End Function
 
 Public Sub WriteToLog(ByVal module As String, _
                         ByVal procedure As String, _
-                        ByVal message As String, _
+                        ByVal Message As String, _
                 Optional ByVal logLevel As LoggingLevel = Information, _
                 Optional ByVal errNumber As Long, _
-                Optional ByVal source As String)
+                Optional ByVal Source As String)
 ' =================================================================================================
 ' Description : Procedure to write to logs
 '
@@ -266,7 +266,7 @@ Public Sub WriteToLog(ByVal module As String, _
     
     'Remove new line characters
     '--------------------------
-    logMessage = RemoveLineBreaks(message, MULTI_LINE_SEPARATOR)
+    logMessage = RemoveLineBreaks(Message, MULTI_LINE_SEPARATOR)
     
     logEntry = Concat(vbTab, _
                       Format$(Now(), "dd/mmm/yyyy"), _
@@ -274,7 +274,7 @@ Public Sub WriteToLog(ByVal module As String, _
                       computerName, _
                       userName, _
                       GetLoglevelDescription(logLevel), _
-                      IIf(Len(source) > 0, source, ThisWorkbook.Name), _
+                      IIf(Len(Source) > 0, Source, ThisWorkbook.Name), _
                       module, _
                       procedure, _
                       logMessage, _

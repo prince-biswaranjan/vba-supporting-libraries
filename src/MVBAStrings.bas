@@ -135,7 +135,7 @@ Public Function FormatString(ByVal inputString As String, ParamArray replacement
     Const PROCEDURE_NAME As String = "FormatString"
 
     Dim formattedString    As String
-    Dim index As Long
+    Dim Index As Long
     Dim placeholder As String
     Dim replacement As String
 
@@ -146,14 +146,14 @@ Public Function FormatString(ByVal inputString As String, ParamArray replacement
     'Replace all placeholders
     '------------------------
     
-    For index = LBound(replacements) To UBound(replacements)
+    For Index = LBound(replacements) To UBound(replacements)
         
-        placeholder = "{" & index & "}"
-        replacement = replacements(index)
+        placeholder = "{" & Index & "}"
+        replacement = replacements(Index)
         
         formattedString = Replace(formattedString, placeholder, replacement)
         
-    Next index
+    Next Index
 
     '----------------------------------------------------------------------------------------------
     
@@ -161,7 +161,7 @@ Public Function FormatString(ByVal inputString As String, ParamArray replacement
 End Function
 
 
-Public Function Concat(ByVal delimiter As String, ParamArray params() As Variant) As String
+Public Function Concat(ByVal Delimiter As String, ParamArray Params() As Variant) As String
 ' =================================================================================================
 ' Description : Concatenate string values with a delimiter
 '
@@ -180,7 +180,7 @@ Public Function Concat(ByVal delimiter As String, ParamArray params() As Variant
 
     '----------------------------------------------------------------------------------------------
     
-    For Each parameter In params
+    For Each parameter In Params
         
         If Len(sRtn) = 0 Then
             'First item
@@ -189,7 +189,7 @@ Public Function Concat(ByVal delimiter As String, ParamArray params() As Variant
         Else
             'Other Items
             '-----------
-            sRtn = FormatString("{0}{1}{2}", sRtn, delimiter, CStr(parameter))
+            sRtn = FormatString("{0}{1}{2}", sRtn, Delimiter, CStr(parameter))
         End If
         
     Next parameter
