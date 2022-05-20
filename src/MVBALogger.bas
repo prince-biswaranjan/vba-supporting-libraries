@@ -197,7 +197,7 @@ End Function
 
 Public Sub WriteToLog(ByVal module As String, _
                         ByVal procedure As String, _
-                        ByVal Message As String, _
+                        ByVal message As String, _
                 Optional ByVal logLevel As LoggingLevel = Information, _
                 Optional ByVal errNumber As Long, _
                 Optional ByVal Source As String)
@@ -266,7 +266,7 @@ Public Sub WriteToLog(ByVal module As String, _
     
     'Remove new line characters
     '--------------------------
-    logMessage = RemoveLineBreaks(Message, MULTI_LINE_SEPARATOR)
+    logMessage = RemoveLineBreaks(message, MULTI_LINE_SEPARATOR)
     
     logEntry = Concat(vbTab, _
                       Format$(Now(), "dd/mmm/yyyy"), _
@@ -347,3 +347,5 @@ PROC_ERR:
     
     
 End Function
+
+
