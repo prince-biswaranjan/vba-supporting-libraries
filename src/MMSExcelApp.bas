@@ -73,8 +73,8 @@ Public Sub ResetApplicationProperties()
 
     Dim udtProps As TApplicationProperties
 
-    Call GetApplicationProperties(udtProps, True)
-    Call SetApplicationProperties(udtProps)
+    GetApplicationProperties udtProps, True
+    SetApplicationProperties udtProps
 
 End Sub
 
@@ -96,7 +96,7 @@ Public Sub SetApplicationProperties(ByRef Properties _
 
         ' Need to pass a boolean, not a variant
         ' -------------------------------------
-        If (UCase(CStr(Properties.StatusBar)) = "FALSE") Then
+        If (UCase$(CStr(Properties.StatusBar)) = "FALSE") Then
             .StatusBar = False
         Else
             .StatusBar = Properties.StatusBar
@@ -104,3 +104,5 @@ Public Sub SetApplicationProperties(ByRef Properties _
     End With
 
 End Sub
+
+

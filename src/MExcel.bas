@@ -33,17 +33,17 @@ Public Sub HideUnusedRowsInSheet(ByVal targetWorksheet As Worksheet)
 '==================================================================================================
     
     Const procName  As String = "HideUnusedRows"
-    Dim rng         As Range
+    Dim rangeWithData         As Range
 
     '----------------------------------------------------------------------------------------------
     
     With targetWorksheet
         .Cells.EntireColumn.Hidden = False
         .Cells.EntireRow.Hidden = False
-        Set rng = .Range("A1").Offset(.UsedRange.Rows.Count + 1, .UsedRange.columns.Count + 1)
+        Set rangeWithData = .Range("A1").Offset(.UsedRange.Rows.Count + 1, .UsedRange.columns.Count + 1)
     End With
     
-    With targetWorksheet.Range(rng, rng.End(xlDown).End(xlToRight))
+    With targetWorksheet.Range(rangeWithData, rangeWithData.End(xlDown).End(xlToRight))
         .EntireColumn.Hidden = True
         .EntireRow.Hidden = True
     End With
@@ -243,10 +243,9 @@ PROC_ERR:
 
     Resume PROC_EXIT
     
-    
 End Function
 
-Public Function GetKeyValueDictionary(ByVal ws As Worksheet, ByVal keyCol As Long, ByVal valCol As Long) As Scripting.Dictionary
+Public Function GetKeyValueDictionary(ByVal sourceWorksheet As Worksheet, ByVal keyCol As Long, ByVal valCol As Long) As Scripting.Dictionary
 ' =================================================================================================
 ' Description : Function to return the dictionary containing key value pairs of data in 2 columns
 '
@@ -267,7 +266,7 @@ Public Function GetKeyValueDictionary(ByVal ws As Worksheet, ByVal keyCol As Lon
     '----------------------------------------------------------------------------------------------
     
     'Variable(s) Initialization
-    Set rngKey = ws.Cells.Item(1, keyCol)
+    Set rngKey = sourceWorksheet.Cells.Item(1, keyCol)
     Set keyValueDictionary = New Scripting.Dictionary
     
     'Loop through all rng
@@ -293,6 +292,6 @@ PROC_EXIT:
 PROC_ERR:
 
     Resume PROC_EXIT
-    
-    
+
 End Function
+

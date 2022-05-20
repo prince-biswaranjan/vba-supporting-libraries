@@ -565,11 +565,11 @@ Public Function GetArrayValue(ByRef Arr As Variant, _
     ' Quit if no X or Y value provided
     ' --------------------------------
 
-    If (Len(Trim(XValue)) = 0) Then
+    If (Len(Trim$(XValue)) = 0) Then
         GoTo PROC_EXIT
     End If
 
-    If (Len(Trim(YValue)) = 0) Then
+    If (Len(Trim$(YValue)) = 0) Then
         GoTo PROC_EXIT
     End If
 
@@ -1408,7 +1408,7 @@ Public Sub QuickSortArray(ByRef Arr As Variant, _
         Loop
 
         If (lIdxL <= lIdxU) Then
-            Call QuickSortSwap(Arr, lIdxL, lIdxU)
+            QuickSortSwap Arr, lIdxL, lIdxU
             lIdxL = lIdxL + 1
             lIdxU = lIdxU - 1
         End If
@@ -1417,11 +1417,11 @@ Public Sub QuickSortArray(ByRef Arr As Variant, _
     ' Work on the smaller partition first
     ' -----------------------------------
     If (lIdxU <= lIdxMid) Then
-        Call QuickSortArray(Arr, LB, lIdxU)
-        Call QuickSortArray(Arr, lIdxL, UB)
+        QuickSortArray Arr, LB, lIdxU
+        QuickSortArray Arr, lIdxL, UB
     Else
-        Call QuickSortArray(Arr, lIdxL, UB)
-        Call QuickSortArray(Arr, LB, lIdxU)
+        QuickSortArray Arr, lIdxL, UB
+        QuickSortArray Arr, LB, lIdxU
     End If
 
     ' ----------------------------------------------------------------------
@@ -1532,7 +1532,7 @@ PROC_ERR:
 
 End Sub
 
-Public Function StringToArray(ByVal str As String, _
+Public Function StringToArray(ByVal Str As String, _
                      Optional ByVal Delimiter As String = " ", _
                      Optional ByVal Limit As Long = -1, _
                      Optional ByVal Compare _
@@ -1567,7 +1567,7 @@ Public Function StringToArray(ByVal str As String, _
     ' ---------------
 
     If (Len(Delimiter) > 0) Then
-        vRtn = Split(str, Delimiter, Limit, Compare)
+        vRtn = Split(Str, Delimiter, Limit, Compare)
         GoTo PROC_EXIT
     End If
 
@@ -1577,7 +1577,7 @@ Public Function StringToArray(ByVal str As String, _
     If (Limit > 0) Then
         lLen = Limit
     Else
-        lLen = Len(str)
+        lLen = Len(Str)
     End If
 
     vRtn = Array()
@@ -1585,7 +1585,7 @@ Public Function StringToArray(ByVal str As String, _
 
     For lPos = 1 To lLen
         lIdx = lPos - 1
-        vRtn(lIdx) = Mid$(str, lPos, 1)
+        vRtn(lIdx) = Mid$(Str, lPos, 1)
     Next lPos
 
     ' ----------------------------------------------------------------------
@@ -1713,3 +1713,5 @@ PROC_ERR:
 '    End If
 
 End Function
+
+

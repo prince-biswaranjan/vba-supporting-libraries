@@ -9,22 +9,35 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
-Private conString           As String
-Private conn                As ADODB.Connection
 Private Const MODULE_NAME   As String = "MVBADatabase"
 
+Private Type T_MVBADatabase
+    ConnectionString As String
+    connection As ADODB.connection
+End Type
+
+Private this As T_MVBADatabase
+
 Private Sub Class_Initialize()
-    conString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & ThisWorkbook.FullName & ";Extended Properties=""Excel 12.0 Macro;HDR=YES"";"
+    this.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & ThisWorkbook.FullName & ";Extended Properties=""Excel 12.0 Macro;HDR=YES"";"
 End Sub
 
+Public Property Get ConnectionString() As String
+    ConnectionString = this.ConnectionString
+End Property
+
+Public Property Let ConnectionString(ByVal value As String)
+    this.ConnectionString = value
+End Property
+
 Private Sub OpenConnection()
-    If conn Is Nothing Then
-        Set conn = New ADODB.Connection
-        conn.ConnectionString = conString
+    If this.connection Is Nothing Then
+        Set this.connection = New ADODB.connection
+        this.connection.ConnectionString = this.ConnectionString
     End If
     
-    If conn.State <> 1 Then
-        conn.Open
+    If this.connection.State <> 1 Then
+        this.connection.Open
     End If
     'Debug.Print "Connection Opened"
 End Sub
@@ -36,7 +49,7 @@ Public Function GetRecordSet(ByVal sqlQuery As String) As ADODB.Recordset
     Set rs = New ADODB.Recordset
     
     'Debug.Print sqlQuery
-    rs.Open sqlQuery, conn
+    rs.Open sqlQuery, this.connection
     
     'Debug.Print rs.GetString
     
@@ -52,19 +65,19 @@ Public Sub ExecuteQuery(ByVal sqlQuery As String)
     WriteToLog MODULE_NAME, PROC_NAME, "Executing Query: " & sqlQuery
     
     With New ADODB.Command
-        Set .ActiveConnection = conn
+        Set .ActiveConnection = this.connection
         .CommandText = sqlQuery
         .Execute
     End With
     
 End Sub
 Private Sub Class_Terminate()
-    If conn.State Then
-        conn.Close
+    If this.connection.State Then
+        this.connection.Close
     End If
     
-    If Not conn Is Nothing Then
-        Set conn = Nothing
+    If Not this.connection Is Nothing Then
+        Set this.connection = Nothing
     End If
     
     'Debug.Print "Connection closed"
