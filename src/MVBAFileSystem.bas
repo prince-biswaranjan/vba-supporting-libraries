@@ -1,4 +1,5 @@
 Attribute VB_Name = "MVBAFileSystem"
+'@IgnoreModule LineLabelNotUsed, ConstantNotUsed
 
 ' =================================================================================================
 ' Module      : MVBAFileSystem
@@ -133,20 +134,20 @@ Public Function FileExists(ByVal filePath As String) As Boolean
 
     Const PROCEDURE_NAME    As String = "FileExists"
 
-    Dim bRtn    As Boolean
-    Dim fso As Scripting.FileSystemObject
+    Dim returnValue         As Boolean
+    Dim fso                 As Scripting.FileSystemObject
 
     '----------------------------------------------------------------------------------------------
     
     Set fso = New Scripting.FileSystemObject
     
-    bRtn = fso.FileExists(filePath)
+    returnValue = fso.FileExists(filePath)
 
     '----------------------------------------------------------------------------------------------
 
 PROC_EXIT:
     
-    FileExists = bRtn
+    FileExists = returnValue
     Set fso = Nothing
     Exit Function
     
@@ -156,4 +157,5 @@ PROC_ERR:
     Resume PROC_EXIT
     
 End Function
+
 

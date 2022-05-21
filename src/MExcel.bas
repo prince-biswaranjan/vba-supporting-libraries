@@ -1,4 +1,5 @@
 Attribute VB_Name = "MExcel"
+'@IgnoreModule ProcedureNotUsed, LineLabelNotUsed, ConstantNotUsed
 '==================================================================================================
 '   Module          :   MExcel
 '   Type            :   Module
@@ -32,8 +33,8 @@ Public Sub HideUnusedRowsInSheet(ByVal targetWorksheet As Worksheet)
 '   Returns     :   NA
 '==================================================================================================
     
-    Const procName  As String = "HideUnusedRows"
-    Dim rangeWithData         As Range
+    Const procName      As String = "HideUnusedRows"
+    Dim rangeWithData   As Range
 
     '----------------------------------------------------------------------------------------------
     
@@ -91,6 +92,7 @@ PROC_EXIT:
     
 PROC_ERR:
     Resume PROC_EXIT
+
 End Function
 
 
@@ -186,7 +188,6 @@ PROC_ERR:
 
     Resume PROC_EXIT
     
-    
 End Sub
 
 
@@ -260,8 +261,8 @@ Public Function GetKeyValueDictionary(ByVal sourceWorksheet As Worksheet, ByVal 
 
     Const PROCEDURE_NAME    As String = "GetKeyValueDictionary"
     
-    Dim rngKey     As Range
-    Dim keyValueDictionary    As Scripting.Dictionary
+    Dim rngKey              As Range
+    Dim keyValueDictionary  As Scripting.Dictionary
 
     '----------------------------------------------------------------------------------------------
     
@@ -294,4 +295,5 @@ PROC_ERR:
     Resume PROC_EXIT
 
 End Function
+
 

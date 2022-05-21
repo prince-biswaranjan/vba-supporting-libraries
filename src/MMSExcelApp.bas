@@ -1,4 +1,5 @@
 Attribute VB_Name = "MMSExcelApp"
+'@IgnoreModule ProcedureNotUsed
 ' ==========================================================================
 ' Module      : MMSExcelApp
 ' Type        : Module
@@ -32,8 +33,7 @@ Public Type TApplicationProperties
     StatusBar       As Variant
 End Type
 
-Public Sub GetApplicationProperties(ByRef Properties _
-                                       As TApplicationProperties, _
+Public Sub GetApplicationProperties(ByRef Properties As TApplicationProperties, _
                            Optional ByVal UseDefaults As Boolean)
 ' ==========================================================================
 ' Description : Copy the Application object properties to a structure.
@@ -71,15 +71,14 @@ Public Sub ResetApplicationProperties()
 ' Description : Reset the Application properties back to the default values.
 ' ==========================================================================
 
-    Dim udtProps As TApplicationProperties
+    Dim Properties As TApplicationProperties
 
-    GetApplicationProperties udtProps, True
-    SetApplicationProperties udtProps
+    GetApplicationProperties Properties, True
+    SetApplicationProperties Properties
 
 End Sub
 
-Public Sub SetApplicationProperties(ByRef Properties _
-                                          As TApplicationProperties)
+Public Sub SetApplicationProperties(ByRef Properties As TApplicationProperties)
 ' ==========================================================================
 ' Description : Populate application properties from structure values
 '

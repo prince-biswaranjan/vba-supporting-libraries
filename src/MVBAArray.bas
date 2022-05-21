@@ -1,4 +1,5 @@
 Attribute VB_Name = "MVBAArray"
+'@IgnoreModule ProcedureNotUsed, LineLabelNotUsed, ConstantNotUsed
 ' ==========================================================================
 ' Module      : MVBAArray
 ' Type        : Module
@@ -54,9 +55,9 @@ Public Function ArrayToString(ByRef Arr As Variant, _
 ' Returns     : String
 ' ==========================================================================
 
-    Const sPROC As String = "ArrayToString"
+    Const PROCEDURE_NAME As String = "ArrayToString"
 
-    Dim sRtn    As String
+    Dim returnValue    As String
 
 
     On Error GoTo PROC_ERR
@@ -64,13 +65,13 @@ Public Function ArrayToString(ByRef Arr As Variant, _
 
     ' ----------------------------------------------------------------------
 
-    sRtn = Join(Arr, Delimiter)
+    returnValue = Join(Arr, Delimiter)
 
     ' ----------------------------------------------------------------------
 
 PROC_EXIT:
 
-    ArrayToString = sRtn
+    ArrayToString = returnValue
 
     'Call Trace(tlMaximum, msMODULE, sPROC, sRtn)
     On Error GoTo 0
@@ -93,8 +94,7 @@ End Function
 Public Sub BubbleSortArray(ByRef Arr As Variant, _
                            Optional ByVal DimIdx As Long, _
                            Optional ByVal SortOrder As XlSortOrder = xlAscending, _
-                           Optional ByVal SortOrientation _
-                           As XlSortOrientation = xlSortColumns)
+                           Optional ByVal SortOrientation As XlSortOrientation = xlSortColumns)
 ' ==========================================================================
 ' Description : Sort an array.
 '
@@ -106,16 +106,16 @@ Public Sub BubbleSortArray(ByRef Arr As Variant, _
 '                               ListBox lists are ordered by Rows
 ' ==========================================================================
 
-    Const sPROC     As String = "BubbleSortArray"
+    Const PROCEDURE_NAME        As String = "BubbleSortArray"
 
-    Dim bDone       As Boolean
-    Dim bMultiDim   As Boolean
+    Dim isDone                  As Boolean
+    Dim isMultiDimensionalArray As Boolean
 
-    Dim lCol        As Long
-    Dim lDimCt      As Long
-    Dim lIdx        As Long
+    Dim columnNumber            As Long
+    Dim dimensionsCount         As Long
+    Dim index                   As Long
 
-    Dim vTmp        As Variant
+    Dim tempArray               As Variant
 
 
     On Error GoTo PROC_ERR
@@ -124,23 +124,23 @@ Public Sub BubbleSortArray(ByRef Arr As Variant, _
     ' ----------------------------------------------------------------------
     ' Determine if a multi-dim array
     ' ------------------------------
-    lDimCt = NumberOfDimensions(Arr)
-    bMultiDim = (lDimCt > 1)
+    dimensionsCount = NumberOfDimensions(Arr)
+    isMultiDimensionalArray = (dimensionsCount > 1)
 
     ' Determine the sort direction
     ' ----------------------------
     If (SortOrder = xlDescending) Then
-        If (bMultiDim And (SortOrientation = xlSortRows)) Then
+        If (isMultiDimensionalArray And (SortOrientation = xlSortRows)) Then
             GoTo SORT_DESC_MULTI_ROWS
-        ElseIf bMultiDim Then
+        ElseIf isMultiDimensionalArray Then
             GoTo SORT_DESC_MULTI
         Else
             GoTo SORT_DESCENDING
         End If
     Else
-        If (bMultiDim And (SortOrientation = xlSortRows)) Then
+        If (isMultiDimensionalArray And (SortOrientation = xlSortRows)) Then
             GoTo SORT_ASC_MULTI_ROWS
-        ElseIf bMultiDim Then
+        ElseIf isMultiDimensionalArray Then
             GoTo SORT_ASC_MULTI
         End If
     End If
@@ -152,34 +152,34 @@ Public Sub BubbleSortArray(ByRef Arr As Variant, _
     Do
         ' Assume we're finished
         ' ---------------------
-        bDone = True
+        isDone = True
 
         ' Loop through the array
         ' and compare the values
         ' ----------------------
-        For lIdx = LBound(Arr) To UBound(Arr) - 1
+        For index = LBound(Arr) To UBound(Arr) - 1
 
             ' Compare the values.
             ' If they are the wrong order, ...
             ' --------------------------------
-            If (Arr(lIdx) > Arr(lIdx + 1)) Then
+            If (Arr(index) > Arr(index + 1)) Then
 
                 ' ... swap them ...
                 ' -----------------
-                vTmp = Arr(lIdx)
-                Arr(lIdx) = Arr(lIdx + 1)
-                Arr(lIdx + 1) = vTmp
+                tempArray = Arr(index)
+                Arr(index) = Arr(index + 1)
+                Arr(index + 1) = tempArray
 
                 ' ... and clear the
                 ' flag to loop again.
                 ' -------------------
-                bDone = False
-                vTmp = Empty
+                isDone = False
+                tempArray = Empty
             End If
 
-        Next lIdx
+        Next index
 
-    Loop While Not bDone
+    Loop While Not isDone
 
     GoTo PROC_EXIT
 
@@ -190,37 +190,37 @@ SORT_ASC_MULTI:
     Do
         ' Assume we're finished
         ' ---------------------
-        bDone = True
+        isDone = True
 
         ' Loop through the array
         ' and compare the values
         ' ----------------------
-        For lIdx = LBound(Arr, 1) To UBound(Arr, 1) - 1
+        For index = LBound(Arr, 1) To UBound(Arr, 1) - 1
 
             ' Compare the values.
             ' If they are the wrong order, ...
             ' --------------------------------
-            If (Arr(DimIdx, lIdx) > Arr(DimIdx, lIdx + 1)) Then
+            If (Arr(DimIdx, index) > Arr(DimIdx, index + 1)) Then
 
                 ' ... swap them ...
                 ' -----------------
-                For lCol = 0 To lDimCt - 1
-                    vTmp = Arr(lCol, lIdx)
-                    Arr(lCol, lIdx) = Arr(lCol, lIdx + 1)
-                    Arr(lCol, lIdx + 1) = vTmp
-                    vTmp = Empty
-                Next lCol
+                For columnNumber = 0 To dimensionsCount - 1
+                    tempArray = Arr(columnNumber, index)
+                    Arr(columnNumber, index) = Arr(columnNumber, index + 1)
+                    Arr(columnNumber, index + 1) = tempArray
+                    tempArray = Empty
+                Next columnNumber
 
                 ' ... and clear the
                 ' flag to loop again.
                 ' -------------------
-                bDone = False
-                vTmp = Empty
+                isDone = False
+                tempArray = Empty
             End If
 
-        Next lIdx
+        Next index
 
-    Loop While Not bDone
+    Loop While Not isDone
 
     GoTo PROC_EXIT
 
@@ -231,37 +231,37 @@ SORT_ASC_MULTI_ROWS:
     Do
         ' Assume we're finished
         ' ---------------------
-        bDone = True
+        isDone = True
 
         ' Loop through the array
         ' and compare the values
         ' ----------------------
-        For lIdx = LBound(Arr, 1) To UBound(Arr, 1) - 1
+        For index = LBound(Arr, 1) To UBound(Arr, 1) - 1
 
             ' Compare the values.
             ' If they are the wrong order, ...
             ' --------------------------------
-            If (Arr(lIdx, DimIdx) > Arr(lIdx + 1, DimIdx)) Then
+            If (Arr(index, DimIdx) > Arr(index + 1, DimIdx)) Then
 
                 ' ... swap them ...
                 ' -----------------
-                For lCol = LBound(Arr, lDimCt) To UBound(Arr, lDimCt)
-                    vTmp = Arr(lIdx, lCol)
-                    Arr(lIdx, lCol) = Arr(lIdx + 1, lCol)
-                    Arr(lIdx + 1, lCol) = vTmp
-                    vTmp = Empty
-                Next lCol
+                For columnNumber = LBound(Arr, dimensionsCount) To UBound(Arr, dimensionsCount)
+                    tempArray = Arr(index, columnNumber)
+                    Arr(index, columnNumber) = Arr(index + 1, columnNumber)
+                    Arr(index + 1, columnNumber) = tempArray
+                    tempArray = Empty
+                Next columnNumber
 
                 ' ... and clear the
                 ' flag to loop again.
                 ' -------------------
-                bDone = False
-                vTmp = Empty
+                isDone = False
+                tempArray = Empty
             End If
 
-        Next lIdx
+        Next index
 
-    Loop While Not bDone
+    Loop While Not isDone
 
     GoTo PROC_EXIT
 
@@ -272,34 +272,34 @@ SORT_DESCENDING:
     Do
         ' Assume we're finished
         ' ---------------------
-        bDone = True
+        isDone = True
 
         ' Loop through the array
         ' and compare the values
         ' ----------------------
-        For lIdx = LBound(Arr) To UBound(Arr) - 1
+        For index = LBound(Arr) To UBound(Arr) - 1
 
             ' Compare the values.
             ' If they are the wrong order, ...
             ' --------------------------------
-            If (Arr(lIdx) < Arr(lIdx + 1)) Then
+            If (Arr(index) < Arr(index + 1)) Then
 
                 ' ... swap them ...
                 ' -----------------
-                vTmp = Arr(lIdx)
-                Arr(lIdx) = Arr(lIdx + 1)
-                Arr(lIdx + 1) = vTmp
+                tempArray = Arr(index)
+                Arr(index) = Arr(index + 1)
+                Arr(index + 1) = tempArray
 
                 ' ... and clear the
                 ' flag to loop again.
                 ' -------------------
-                bDone = False
-                vTmp = Empty
+                isDone = False
+                tempArray = Empty
             End If
 
-        Next lIdx
+        Next index
 
-    Loop While Not bDone
+    Loop While Not isDone
 
     GoTo PROC_EXIT
 
@@ -310,37 +310,37 @@ SORT_DESC_MULTI:
     Do
         ' Assume we're finished
         ' ---------------------
-        bDone = True
+        isDone = True
 
         ' Loop through the array
         ' and compare the values
         ' ----------------------
-        For lIdx = LBound(Arr, 1) To UBound(Arr, 1) - 1
+        For index = LBound(Arr, 1) To UBound(Arr, 1) - 1
 
             ' Compare the values.
             ' If they are the wrong order, ...
             ' --------------------------------
-            If (Arr(DimIdx, lIdx) < Arr(DimIdx, lIdx + 1)) Then
+            If (Arr(DimIdx, index) < Arr(DimIdx, index + 1)) Then
 
                 ' ... swap them ...
                 ' -----------------
-                For lCol = 0 To lDimCt - 1
-                    vTmp = Arr(lCol, lIdx)
-                    Arr(lCol, lIdx) = Arr(lCol, lIdx + 1)
-                    Arr(lCol, lIdx + 1) = vTmp
-                    vTmp = Empty
-                Next lCol
+                For columnNumber = 0 To dimensionsCount - 1
+                    tempArray = Arr(columnNumber, index)
+                    Arr(columnNumber, index) = Arr(columnNumber, index + 1)
+                    Arr(columnNumber, index + 1) = tempArray
+                    tempArray = Empty
+                Next columnNumber
 
                 ' ... and clear the
                 ' flag to loop again.
                 ' -------------------
-                bDone = False
-                vTmp = Empty
+                isDone = False
+                tempArray = Empty
             End If
 
-        Next lIdx
+        Next index
 
-    Loop While Not bDone
+    Loop While Not isDone
 
     GoTo PROC_EXIT
 
@@ -351,37 +351,37 @@ SORT_DESC_MULTI_ROWS:
     Do
         ' Assume we're finished
         ' ---------------------
-        bDone = True
+        isDone = True
 
         ' Loop through the array
         ' and compare the values
         ' ----------------------
-        For lIdx = LBound(Arr, 1) To UBound(Arr, 1) - 1
+        For index = LBound(Arr, 1) To UBound(Arr, 1) - 1
 
             ' Compare the values.
             ' If they are the wrong order, ...
             ' --------------------------------
-            If (Arr(lIdx, DimIdx) < Arr(lIdx + 1, DimIdx)) Then
+            If (Arr(index, DimIdx) < Arr(index + 1, DimIdx)) Then
 
                 ' ... swap them ...
                 ' -----------------
-                For lCol = LBound(Arr, lDimCt) To UBound(Arr, lDimCt)
-                    vTmp = Arr(lIdx, lCol)
-                    Arr(lIdx, lCol) = Arr(lIdx + 1, lCol)
-                    Arr(lIdx + 1, lCol) = vTmp
-                    vTmp = Empty
-                Next lCol
+                For columnNumber = LBound(Arr, dimensionsCount) To UBound(Arr, dimensionsCount)
+                    tempArray = Arr(index, columnNumber)
+                    Arr(index, columnNumber) = Arr(index + 1, columnNumber)
+                    Arr(index + 1, columnNumber) = tempArray
+                    tempArray = Empty
+                Next columnNumber
 
                 ' ... and clear the
                 ' flag to loop again.
                 ' -------------------
-                bDone = False
-                vTmp = Empty
+                isDone = False
+                tempArray = Empty
             End If
 
-        Next lIdx
+        Next index
 
-    Loop While Not bDone
+    Loop While Not isDone
 
     GoTo PROC_EXIT
 
@@ -407,7 +407,7 @@ PROC_ERR:
 
 End Sub
 
-Public Function CollectionToArray(ByRef Col As VBA.Collection, _
+Public Function CollectionToArray(ByVal Col As VBA.Collection, _
                          Optional ByVal Base As Long) As Variant
 ' ==========================================================================
 ' Description : Convert a collection to an array
@@ -417,10 +417,10 @@ Public Function CollectionToArray(ByRef Col As VBA.Collection, _
 ' Returns     : Variant
 ' ==========================================================================
 
-    Const sPROC As String = "CollectionToArray"
+    Const PROCEDURE_NAME As String = "CollectionToArray"
 
-    Dim lIdx    As Long
-    Dim vRtn    As Variant
+    Dim index       As Long
+    Dim returnValue As Variant
 
 
     On Error GoTo PROC_ERR
@@ -428,22 +428,22 @@ Public Function CollectionToArray(ByRef Col As VBA.Collection, _
 
     ' ----------------------------------------------------------------------
 
-    vRtn = Array()
-    ReDim vRtn(Base To Base + Col.Count - 1)
+    returnValue = Array()
+    ReDim returnValue(Base To Base + Col.Count - 1)
 
-    For lIdx = 1 To Col.Count
-        vRtn(lIdx + Base - 1) = Col.Item(lIdx)
-    Next lIdx
+    For index = 1 To Col.Count
+        returnValue(index + Base - 1) = Col.Item(index)
+    Next index
 
     ' ----------------------------------------------------------------------
 
 PROC_EXIT:
 
-    CollectionToArray = vRtn
+    CollectionToArray = returnValue
 
     On Error Resume Next
-    Erase vRtn
-    vRtn = Empty
+    Erase returnValue
+    'vRtn = Empty
 
     'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
@@ -472,13 +472,13 @@ Public Function CombineArrays(ParamArray Params() As Variant) As Variant
 ' Returns     : Variant (containing an array)
 ' ==========================================================================
 
-    Const sPROC As String = "CombineArrays"
+    Const PROCEDURE_NAME    As String = "CombineArrays"
 
-    Dim lIdx    As Long: lIdx = -1
+    Dim index               As Long: index = -1
 
-    Dim vElt    As Variant
-    Dim vAry    As Variant
-    Dim vRtn    As Variant
+    Dim vElt                As Variant
+    Dim vAry                As Variant
+    Dim returnValue         As Variant
 
 
     On Error GoTo PROC_ERR
@@ -486,19 +486,19 @@ Public Function CombineArrays(ParamArray Params() As Variant) As Variant
 
     ' ----------------------------------------------------------------------
 
-    vRtn = Array()
+    returnValue = Array()
 
     For Each vAry In Params
         If IsArray(vAry) Then
             For Each vElt In vAry
-                lIdx = lIdx + 1
-                ReDim Preserve vRtn(0 To lIdx)
-                vRtn(lIdx) = vElt
+                index = index + 1
+                ReDim Preserve returnValue(0 To index)
+                returnValue(index) = vElt
             Next vElt
         Else
-            lIdx = lIdx + 1
-            ReDim Preserve vRtn(0 To lIdx)
-            vRtn(lIdx) = vAry
+            index = index + 1
+            ReDim Preserve returnValue(0 To index)
+            returnValue(index) = vAry
         End If
     Next vAry
 
@@ -506,13 +506,13 @@ Public Function CombineArrays(ParamArray Params() As Variant) As Variant
 
 PROC_EXIT:
 
-    CombineArrays = vRtn
+    CombineArrays = returnValue
 
     On Error Resume Next
     Erase vAry
-    Erase vRtn
-    vAry = Empty
-    vRtn = Empty
+    Erase returnValue
+    'vAry = Empty
+    'vRtn = Empty
 
     'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
@@ -546,16 +546,16 @@ Public Function GetArrayValue(ByRef Arr As Variant, _
 ' Returns     : Variant
 ' ==========================================================================
 
-    Const sPROC As String = "GetArrayValue"
+    Const PROCEDURE_NAME    As String = "GetArrayValue"
 
-    Dim vRtn    As Variant
+    Dim returnValue         As Variant
 
-    Dim lIdxX   As Long
-    Dim lIdxY   As Long
-    Dim lLbx    As Long
-    Dim lUBX    As Long
-    Dim lLBY    As Long
-    Dim lUBY    As Long
+    Dim indexX              As Long
+    Dim indexY              As Long
+    Dim lowerBoundX         As Long
+    Dim upperBoundX         As Long
+    Dim lowerBoundY         As Long
+    Dim upperBoundY         As Long
 
 
     On Error GoTo PROC_ERR
@@ -576,37 +576,37 @@ Public Function GetArrayValue(ByRef Arr As Variant, _
     ' ----------------------------------------------------------------------
     ' Find the column
     ' ---------------
-    lLbx = LBound(Arr, 1)
-    lUBX = UBound(Arr, 1)
+    lowerBoundX = LBound(Arr, 1)
+    upperBoundX = UBound(Arr, 1)
 
-    lLBY = LBound(Arr, 2)
-    lUBY = UBound(Arr, 2)
+    lowerBoundY = LBound(Arr, 2)
+    upperBoundY = UBound(Arr, 2)
 
     ' Find the header
     ' ---------------
-    For lIdxX = lLbx To lUBX
+    For indexX = lowerBoundX To upperBoundX
 
-        If (Arr(lIdxX, lLBY) = XValue) Then
+        If (Arr(indexX, lowerBoundY) = XValue) Then
 
             ' Find the row
             ' ------------
-            For lIdxY = lLBY To lUBY
-                If (Arr(lLbx, lIdxY) = YValue) Then
-                    vRtn = Arr(lIdxX, lIdxY)
-                    lIdxY = lUBY
+            For indexY = lowerBoundY To upperBoundY
+                If (Arr(lowerBoundX, indexY) = YValue) Then
+                    returnValue = Arr(indexX, indexY)
+                    indexY = upperBoundY
                 End If
-            Next lIdxY
+            Next indexY
 
-            lIdxX = lUBX
+            indexX = upperBoundX
         End If
 
-    Next lIdxX
+    Next indexX
 
     ' ----------------------------------------------------------------------
 
 PROC_EXIT:
 
-    GetArrayValue = vRtn
+    GetArrayValue = returnValue
 
     'Call Trace(tlMaximum, msMODULE, sPROC, vRtn)
     On Error GoTo 0
@@ -641,12 +641,12 @@ Public Function GetElementIndex(ByRef Arr As Variant, _
 ' Returns     : Long
 ' ==========================================================================
 
-    Const sPROC As String = "GetElementIndex"
+    Const PROCEDURE_NAME    As String = "GetElementIndex"
 
-    Dim lLB     As Long
-    Dim lUB     As Long
-    Dim lIdx    As Long
-    Dim lRtn    As Long
+    Dim lowerBound          As Long
+    Dim upperBound          As Long
+    Dim index               As Long
+    Dim returnValue         As Long
 
 
     On Error GoTo PROC_ERR
@@ -655,33 +655,33 @@ Public Function GetElementIndex(ByRef Arr As Variant, _
     ' ----------------------------------------------------------------------
 
     If (Dimensions > 1) Then
-        lLB = LBound(Arr, Dimensions)
-        lUB = UBound(Arr, Dimensions)
+        lowerBound = LBound(Arr, Dimensions)
+        upperBound = UBound(Arr, Dimensions)
 
-        For lIdx = lLB To lUB
-            If (Arr(Dimension, lIdx) = Element) Then
-                lRtn = lIdx
+        For index = lowerBound To upperBound
+            If (Arr(Dimension, index) = Element) Then
+                returnValue = index
                 Exit For
             End If
-        Next lIdx
+        Next index
 
     Else
-        lLB = LBound(Arr)
-        lUB = UBound(Arr)
+        lowerBound = LBound(Arr)
+        upperBound = UBound(Arr)
 
-        For lIdx = lLB To lUB
-            If (Arr(lIdx) = Element) Then
-                lRtn = lIdx
+        For index = lowerBound To upperBound
+            If (Arr(index) = Element) Then
+                returnValue = index
                 Exit For
             End If
-        Next lIdx
+        Next index
     End If
 
     ' ----------------------------------------------------------------------
 
 PROC_EXIT:
 
-    GetElementIndex = lRtn
+    GetElementIndex = returnValue
 
     'Call Trace(tlMaximum, msMODULE, sPROC, lRtn)
     On Error GoTo 0
@@ -714,12 +714,12 @@ Public Function GetElementIndexX(ByRef Arr As Variant, _
 ' Returns     : Long
 ' ==========================================================================
 
-    Const sPROC As String = "GetElementIndexX"
+    Const PROCEDURE_NAME    As String = "GetElementIndexX"
 
-    Dim lLB     As Long
-    Dim lUB     As Long
-    Dim lIdx    As Long
-    Dim lRtn    As Long
+    Dim lowerBound          As Long
+    Dim upperBound          As Long
+    Dim index               As Long
+    Dim returnValue         As Long
 
 
     On Error GoTo PROC_ERR
@@ -727,21 +727,21 @@ Public Function GetElementIndexX(ByRef Arr As Variant, _
 
     ' ----------------------------------------------------------------------
 
-    lLB = LBound(Arr, 1)
-    lUB = UBound(Arr, 1)
+    lowerBound = LBound(Arr, 1)
+    upperBound = UBound(Arr, 1)
 
-    For lIdx = lLB To lUB
-        If (Arr(lIdx, YIndex) = Element) Then
-            lRtn = lIdx
+    For index = lowerBound To upperBound
+        If (Arr(index, YIndex) = Element) Then
+            returnValue = index
             Exit For
         End If
-    Next lIdx
+    Next index
 
     ' ----------------------------------------------------------------------
 
 PROC_EXIT:
 
-    GetElementIndexX = lRtn
+    GetElementIndexX = returnValue
 
     'Call Trace(tlVerbose, msMODULE, sPROC, lRtn)
     On Error GoTo 0
@@ -763,7 +763,7 @@ End Function
 
 Public Function InsertElement(ByRef Arr As Variant, _
                               ByVal Element As Variant, _
-                     Optional ByVal Index As Long = -1) As Boolean
+                     Optional ByVal index As Long = -1) As Boolean
 ' ==========================================================================
 ' Description : Insert a value into an array.
 '               The array must be dynamic, and everything after the
@@ -778,13 +778,14 @@ Public Function InsertElement(ByRef Arr As Variant, _
 ' Returns     : Boolean   Returns True if successful
 ' ==========================================================================
 
-    Const sPROC As String = "InsertElement"
+    Const PROCEDURE_NAME    As String = "InsertElement"
 
-    Dim bRtn    As Boolean
+    Dim localIndex          As Long:    localIndex = index
+    Dim returnValue         As Boolean
 
-    Dim lIdx    As Long
-    Dim lLB     As Long
-    Dim lUB     As Long
+    Dim counter             As Long
+    Dim lowerBound          As Long
+    Dim upperBound          As Long
 
 
     On Error GoTo PROC_ERR
@@ -806,38 +807,37 @@ Public Function InsertElement(ByRef Arr As Variant, _
 
     ' Assume success
     ' --------------
-    bRtn = True
+    returnValue = True
 
     ' Get the extents of the array
     ' ----------------------------
-    lLB = LBound(Arr)
-    lUB = UBound(Arr)
+    lowerBound = LBound(Arr)
+    upperBound = UBound(Arr)
 
     ' If Index is less than LBound or greater than
     ' UBound, the Element will be added to the end
     ' --------------------------------------------
-    If ((Index < lLB) Or (Index > lUB)) Then
-        Index = lUB + 1
-        ReDim Preserve Arr(lLB To Index)
-        Arr(Index) = Element
+    If ((localIndex < lowerBound) Or (localIndex > upperBound)) Then
+        localIndex = upperBound + 1
+        ReDim Preserve Arr(lowerBound To localIndex)
+        Arr(localIndex) = Element
         GoTo PROC_EXIT
     End If
 
     ' The Index is within the array.
     ' Move all elements after the index.
     ' ----------------------------------
-    For lIdx = lUB To Index + 1 Step -1
-        Arr(lIdx) = Arr(lIdx - 1)
-    Next lIdx
+    For counter = upperBound To localIndex + 1 Step -1
+        Arr(counter) = Arr(counter - 1)
+    Next counter
 
-    Arr(Index) = Element
+    Arr(localIndex) = Element
 
     ' ----------------------------------------------------------------------
 
 PROC_EXIT:
 
-    InsertElement = bRtn
-
+    InsertElement = returnValue
 
     'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
@@ -848,7 +848,7 @@ PROC_EXIT:
 
 PROC_ERR:
 
-    bRtn = False
+    'bRtn = False
 
 '    If ErrorHandler(msMODULE, sPROC) Then
 '        Stop
@@ -872,10 +872,10 @@ Public Function IsAllocated(ByRef Arr As Variant) As Boolean
 '                     ReDim, or a dynamic array that has been Erased).
 ' ==========================================================================
 
-    Const sPROC As String = "IsAllocated"
+    Const PROCEDURE_NAME As String = "IsAllocated"
 
-    Dim bRtn    As Boolean
-    Dim lUB     As Long
+    Dim returnValue    As Boolean
+    'Dim lUB     As Long
 
 
     On Error GoTo PROC_ERR
@@ -885,7 +885,7 @@ Public Function IsAllocated(ByRef Arr As Variant) As Boolean
     ' Quit if Arr is not an array
     ' ---------------------------
     If Not IsArray(Arr) Then
-        bRtn = False
+        returnValue = False
         GoTo PROC_EXIT
     End If
 
@@ -893,20 +893,15 @@ Public Function IsAllocated(ByRef Arr As Variant) As Boolean
     ' an error will occur. Test Err.Number to see if an error occurred.
     ' ------------------------------------------------------------------
     On Error Resume Next                ' Err.Clear automatically invoked
-    lUB = UBound(Arr, 1)
+    'lUB = UBound(Arr, 1)
 
-    If (Err.Number = ERR_SUCCESS) Then  ' No error - array is allocated
-        bRtn = True
-
-    Else                                ' Array is unallocated
-        bRtn = False
-    End If
+    returnValue = (Err.Number = ERR_SUCCESS)
 
     ' ----------------------------------------------------------------------
 
 PROC_EXIT:
 
-    IsAllocated = bRtn
+    IsAllocated = returnValue
 
     'Call Trace(tlMaximum, msMODULE, sPROC, bRtn)
     On Error GoTo 0
@@ -940,12 +935,12 @@ Public Function IsEmptyArray(ByRef Arr As Variant) As Boolean
 ' Returns     : Boolean
 ' ==========================================================================
 
-    Const sPROC As String = "IsEmptyArray"
+    Const PROCEDURE_NAME    As String = "IsEmptyArray"
 
-    Dim bRtn    As Boolean
+    Dim returnValue         As Boolean
 
-    Dim lLB     As Long
-    Dim lUB     As Long
+    Dim lowerBound          As Long
+    Dim upperBound          As Long
 
 
     On Error GoTo PROC_ERR
@@ -959,15 +954,15 @@ Public Function IsEmptyArray(ByRef Arr As Variant) As Boolean
     ' Not an array
     ' ------------
     If (Not IsArray(Arr)) Then
-        bRtn = True
+        returnValue = True
         GoTo PROC_EXIT
     End If
 
     ' If not allocated an error will occur
     ' ------------------------------------
-    lUB = UBound(Arr, 1)
+    upperBound = UBound(Arr, 1)
     If (Err.Number <> 0) Then
-        bRtn = True
+        returnValue = True
         GoTo PROC_EXIT
     End If
 
@@ -975,16 +970,16 @@ Public Function IsEmptyArray(ByRef Arr As Variant) As Boolean
     ' LBound = 0 and UBound = -1
     ' --------------------------
     Err.Clear
-    lLB = LBound(Arr)
-    If (lLB > lUB) Then
-        bRtn = True
+    lowerBound = LBound(Arr)
+    If (lowerBound > upperBound) Then
+        returnValue = True
     End If
 
     ' ----------------------------------------------------------------------
 
 PROC_EXIT:
 
-    IsEmptyArray = bRtn
+    IsEmptyArray = returnValue
 
     'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
@@ -1015,13 +1010,13 @@ Public Function IsInArray(ByRef Arr As Variant, _
 ' Returns     : Boolean
 ' ==========================================================================
 
-    Const sPROC As String = "IsInArray"
+    Const PROCEDURE_NAME    As String = "IsInArray"
 
-    Dim bRtn    As Boolean
+    Dim returnValue         As Boolean
 
-    Dim lIdx    As Long
-    Dim lLB     As Long
-    Dim lUB     As Long
+    Dim index               As Long
+    Dim lowerBound          As Long
+    Dim upperBound          As Long
 
 
     On Error GoTo PROC_ERR
@@ -1029,12 +1024,12 @@ Public Function IsInArray(ByRef Arr As Variant, _
 
     ' ----------------------------------------------------------------------
 
-    lLB = LBound(Arr)
-    lUB = UBound(Arr)
+    lowerBound = LBound(Arr)
+    upperBound = UBound(Arr)
 
-    For lIdx = lLB To lUB
-        If (Arr(lIdx) = Val) Then
-            bRtn = True
+    For index = lowerBound To upperBound
+        If (Arr(index) = Val) Then
+            returnValue = True
             Exit For
         End If
     Next
@@ -1043,7 +1038,7 @@ Public Function IsInArray(ByRef Arr As Variant, _
 
 PROC_EXIT:
 
-    IsInArray = bRtn
+    IsInArray = returnValue
 
     'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
@@ -1070,12 +1065,12 @@ Public Sub ListArray(ParamArray Params() As Variant)
 ' Parameters  : ParamArray    The array to list
 ' ==========================================================================
 
-    Const sPROC     As String = "ListArray"
+    Const PROCEDURE_NAME    As String = "ListArray"
 
-    Dim lIdx        As Long: lIdx = -1
+    Dim index               As Long: index = -1
 
-    Dim vParam      As Variant
-    Dim vElement    As Variant
+    Dim vParam              As Variant
+    Dim vElement            As Variant
 
 
     On Error GoTo PROC_ERR
@@ -1090,19 +1085,19 @@ Public Sub ListArray(ParamArray Params() As Variant)
         ' Parse the array
         ' ---------------
         If IsArray(vParam) Then
-            If (lIdx = -1) Then
-                lIdx = LBound(vParam) - 1
+            If (index = -1) Then
+                index = LBound(vParam) - 1
             End If
             For Each vElement In vParam
-                lIdx = lIdx + 1
-                Debug.Print lIdx & " = ", vElement
+                index = index + 1
+                Debug.Print index & " = ", vElement
             Next vElement
 
             ' List singleton item
             ' -------------------
         Else
-            lIdx = lIdx + 1
-            Debug.Print lIdx & " = ", vElement
+            index = index + 1
+            Debug.Print index & " = ", vElement
         End If
     Next vParam
 
@@ -1130,7 +1125,7 @@ PROC_ERR:
 
 End Sub
 
-Public Function NumberOfDimensions(ByRef Arr As Variant) As Long
+Public Function NumberOfDimensions(ByVal Arr As Variant) As Long
 ' ==========================================================================
 ' Purpose   : Determine the number of dimensions to an array
 '
@@ -1139,12 +1134,13 @@ Public Function NumberOfDimensions(ByRef Arr As Variant) As Long
 ' Returns   : Long    The number of dimensions in the array
 ' ==========================================================================
 
-    Dim lIdx    As Long
-    Dim lRtn    As Long
-    Dim lUB     As Long
+    Dim index       As Long
+    Dim returnValue As Long
+    '@Ignore VariableNotUsed
+    Dim upperBound  As Long
 
 
-    On Error Resume Next
+    On Error GoTo ErrorHandler
 
     ' ----------------------------------------------------------------------
     ' Increase the array index until an error occurs.
@@ -1154,18 +1150,25 @@ Public Function NumberOfDimensions(ByRef Arr As Variant) As Long
     Err.Clear
 
     Do
-        lIdx = lIdx + 1
-        lUB = UBound(Arr, lIdx)
+        index = index + 1
+        upperBound = UBound(Arr, index)
     Loop Until Err.Number <> 0
 
-    lRtn = lIdx - 1
+    returnValue = index - 1
 
     ' ----------------------------------------------------------------------
 
 PROC_EXIT:
 
-    NumberOfDimensions = lRtn
+    NumberOfDimensions = returnValue
+    
+    Exit Function
+ErrorHandler:
 
+    If Err.Number > 0 Then 'TODO: handle specific error
+        Err.Clear
+        Resume Next
+    End If
 End Function
 
 Public Function NumberOfElements(ByRef Arr As Variant, _
@@ -1186,10 +1189,10 @@ Public Function NumberOfElements(ByRef Arr As Variant, _
 ' Returns     : Long
 ' ==========================================================================
 
-    Const sPROC As String = "NumberOfElements"
+    Const PROCEDURE_NAME    As String = "NumberOfElements"
 
-    Dim lRtn    As Long
-    Dim lDimCt  As Long
+    Dim returnValue         As Long
+    Dim dimensionsCount     As Long
 
 
     On Error GoTo PROC_ERR
@@ -1216,23 +1219,23 @@ Public Function NumberOfElements(ByRef Arr As Variant, _
 
     ' Get the number of dimensions
     ' ----------------------------
-    lDimCt = NumberOfDimensions(Arr)
+    dimensionsCount = NumberOfDimensions(Arr)
 
     ' Dimension greater than number of Dimensions
     ' -------------------------------------------
-    If (lDimCt < Dimension) Then
+    If (dimensionsCount < Dimension) Then
         GoTo PROC_EXIT
     End If
 
     ' Get the number of elements
     ' --------------------------
-    lRtn = UBound(Arr, Dimension) - LBound(Arr, Dimension) + 1
+    returnValue = UBound(Arr, Dimension) - LBound(Arr, Dimension) + 1
 
     ' ----------------------------------------------------------------------
 
 PROC_EXIT:
 
-    NumberOfElements = lRtn
+    NumberOfElements = returnValue
 
     'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
@@ -1254,15 +1257,15 @@ End Function
 
 Public Function OneDimToTwo(ByRef Arr As Variant, _
                    Optional ByVal DataDim As Long = 1, _
-                   Optional ByVal BaseDim1 As Long, _
-                   Optional ByVal BaseDim2 As Long) As Variant
+                   Optional ByVal firstDimensionLowerBound As Long, _
+                   Optional ByVal secondDimensionLowerBound As Long) As Variant
 ' ==========================================================================
 ' Description : Convert a 1-dimensional array to 2-dimensional
 '
-' Parameters  : Arr   The array to convert
-'               DataDim   The dimension to copy the data to
-'               BaseDim1  Specifies the lower bound of the first dimension
-'               BaseDim2  Specifies the lower bound of the second dimension
+' Parameters  : Arr                         The array to convert
+'               DataDim                     The dimension to copy the data to
+'               firstDimensionLowerBound    Specifies the lower bound of the first dimension
+'               secondDimensionLowerBound   Specifies the lower bound of the second dimension
 '
 ' Notes       : Bases are usually 0 or 1 (default is zero), but can be
 '               higher to align the index with a column or row
@@ -1270,13 +1273,13 @@ Public Function OneDimToTwo(ByRef Arr As Variant, _
 ' Returns     : Variant
 ' ==========================================================================
 
-    Const sPROC As String = "OneDimToTwo"
+    Const PROCEDURE_NAME        As String = "OneDimToTwo"
 
-    Dim lIdx    As Long
-    Dim lLB     As Long
-    Dim lUB     As Long
+    Dim index                   As Long
+    Dim inputArrayLowerBound    As Long
+    Dim inputArrayUpperBound    As Long
 
-    Dim vRtn    As Variant
+    Dim returnValue             As Variant
 
 
     On Error GoTo PROC_ERR
@@ -1285,35 +1288,35 @@ Public Function OneDimToTwo(ByRef Arr As Variant, _
     ' ----------------------------------------------------------------------
     ' Get the size of the source
     ' --------------------------
-    lLB = LBound(Arr)
-    lUB = UBound(Arr)
+    inputArrayLowerBound = LBound(Arr)
+    inputArrayUpperBound = UBound(Arr)
 
     ' Size the array
     ' --------------
-    vRtn = Array()
-    ReDim vRtn(BaseDim1 To BaseDim1 + 1, BaseDim2 To lUB + BaseDim2)
+    returnValue = Array()
+    ReDim returnValue(firstDimensionLowerBound To firstDimensionLowerBound + 1, secondDimensionLowerBound To inputArrayUpperBound + secondDimensionLowerBound)
 
     ' Copy the array
     ' --------------
     If (DataDim = 1) Then
-        For lIdx = lLB To lUB
-            vRtn(BaseDim1 + DataDim, BaseDim2 + lIdx) = Arr(lIdx)
-        Next lIdx
+        For index = inputArrayLowerBound To inputArrayUpperBound
+            returnValue(firstDimensionLowerBound + DataDim, secondDimensionLowerBound + index) = Arr(index)
+        Next index
     Else
-        For lIdx = lLB To lUB
-            vRtn(BaseDim1, BaseDim2 + lIdx) = Arr(lIdx)
-        Next lIdx
+        For index = inputArrayLowerBound To inputArrayUpperBound
+            returnValue(firstDimensionLowerBound, secondDimensionLowerBound + index) = Arr(index)
+        Next index
     End If
 
     ' ----------------------------------------------------------------------
 
 PROC_EXIT:
 
-    OneDimToTwo = vRtn
+    OneDimToTwo = returnValue
 
     On Error Resume Next
-    Erase vRtn
-    vRtn = Empty
+    Erase returnValue
+    'vRtn = Empty
 
     'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
@@ -1334,39 +1337,39 @@ PROC_ERR:
 End Function
 
 Public Sub QuickSortArray(ByRef Arr As Variant, _
-                 Optional ByRef LB As Long = -2, _
-                 Optional ByRef UB As Long = -2)
-' ==========================================================================
+                 Optional ByRef lowerBound As Long = -2, _
+                 Optional ByRef upperBound As Long = -2)
+' ===================================================================================
 ' Description : Sort an array using the recursive QuickSort algorithm.
 '               This version is a 'balanced' QuickSort, selecting the
 '               middle-indexed item as the pivot point for comparison.
 '               Using the middle point could also allow this to be
 '               considered a Bucket sort.
 '
-' Parameters  : Arr     The array to sort.
-'                       For performance, this argument is not checked to
-'                       ensure it is actually an array before starting
-'                       (because it is called recursively). Always ensure
-'                       this is an array before starting using IsArray(Arr)
-'                       to avoid potential problems.
+' Parameters  : Arr             The array to sort.
+'                               For performance, this argument is not checked to
+'                               ensure it is actually an array before starting
+'                               (because it is called recursively). Always ensure
+'                               this is an array before starting using IsArray(Arr)
+'                               to avoid potential problems.
 '
-'               LB      The LowerBound of the array to sort.
-'               UB      The UpperBound of the array to sort.
+'               lowerBound      The LowerBound of the array to sort.
+'               upperBound      The UpperBound of the array to sort.
 '
-'                       If these values are not passed, the extents are
-'                       automatically checked. By default it is set
-'                       to -2, as -1 is the LBound of an uninitialized
-'                       array, and 0 is the LBound of an initialized array.
-'                       These values are then passed to recursive calls.
-' ==========================================================================
+'                               If these values are not passed, the extents are
+'                               automatically checked. By default it is set
+'                               to -2, as -1 is the LBound of an uninitialized
+'                               array, and 0 is the LBound of an initialized array.
+'                               These values are then passed to recursive calls.
+' ===================================================================================
 
-    Const sPROC As String = "QuickSortArray"
+    Const PROCEDURE_NAME    As String = "QuickSortArray"
 
-    Dim lIdxL   As Long
-    Dim lIdxU   As Long
-    Dim lIdxMid As Long
+    Dim indexLowerBound     As Long
+    Dim indexUpperBound     As Long
+    Dim indexMid            As Long
 
-    Dim vPivot  As Variant
+    Dim vPivot              As Variant
 
 
     On Error GoTo PROC_ERR
@@ -1376,52 +1379,50 @@ Public Sub QuickSortArray(ByRef Arr As Variant, _
     ' Get the extents of the array
     ' ----------------------------
 
-    If (LB = -2) Then
-        LB = LBound(Arr)
+    If (lowerBound = -2) Then
+        lowerBound = LBound(Arr)
     End If
-    If (UB = -2) Then
-        UB = UBound(Arr)
+    If (upperBound = -2) Then
+        upperBound = UBound(Arr)
     End If
 
     ' Only sort if there are elements to sort on
     ' ------------------------------------------
-    If (Not (LB < UB)) Then
-        GoTo PROC_EXIT
-    Else
-        lIdxL = LB
-        lIdxU = UB
-    End If
+    If lowerBound >= upperBound Then GoTo PROC_EXIT
+    
+    indexLowerBound = lowerBound
+    indexUpperBound = upperBound
 
     ' Use the middle of the array
     ' as the pivot value to compare
     ' -----------------------------
-    lIdxMid = (LB + UB) \ 2
-    vPivot = Arr(lIdxMid)
+    indexMid = (lowerBound + upperBound) \ 2
+    vPivot = Arr(indexMid)
 
     Do
-        Do While (Arr(lIdxL) < vPivot)
-            lIdxL = lIdxL + 1
+        Do While (Arr(indexLowerBound) < vPivot)
+            indexLowerBound = indexLowerBound + 1
         Loop
 
-        Do While Arr(lIdxU) > vPivot
-            lIdxU = lIdxU - 1
+        Do While Arr(indexUpperBound) > vPivot
+            indexUpperBound = indexUpperBound - 1
         Loop
 
-        If (lIdxL <= lIdxU) Then
-            QuickSortSwap Arr, lIdxL, lIdxU
-            lIdxL = lIdxL + 1
-            lIdxU = lIdxU - 1
+        If (indexLowerBound <= indexUpperBound) Then
+            QuickSortSwap Arr, indexLowerBound, indexUpperBound
+            indexLowerBound = indexLowerBound + 1
+            indexUpperBound = indexUpperBound - 1
         End If
-    Loop Until (lIdxL > lIdxU)
+    Loop Until (indexLowerBound > indexUpperBound)
 
     ' Work on the smaller partition first
     ' -----------------------------------
-    If (lIdxU <= lIdxMid) Then
-        QuickSortArray Arr, LB, lIdxU
-        QuickSortArray Arr, lIdxL, UB
+    If (indexUpperBound <= indexMid) Then
+        QuickSortArray Arr, lowerBound, indexUpperBound
+        QuickSortArray Arr, indexLowerBound, upperBound
     Else
-        QuickSortArray Arr, lIdxL, UB
-        QuickSortArray Arr, LB, lIdxU
+        QuickSortArray Arr, indexLowerBound, upperBound
+        QuickSortArray Arr, lowerBound, indexUpperBound
     End If
 
     ' ----------------------------------------------------------------------
@@ -1446,6 +1447,7 @@ PROC_ERR:
 
 End Sub
 
+'@Ignore ParameterCanBeByVal
 Private Sub QuickSortSwap(ByRef Arr As Variant, _
                           ByRef IdxL As Long, _
                           ByRef IdxU As Long)
@@ -1457,9 +1459,9 @@ Private Sub QuickSortSwap(ByRef Arr As Variant, _
 '               IdxU    The index of the upper item to swap.
 ' ==========================================================================
 
-    Const sPROC As String = "QuickSortSwap"
+    Const PROCEDURE_NAME    As String = "QuickSortSwap"
 
-    Dim vTemp   As Variant
+    Dim vTemp               As Variant
 
     vTemp = Arr(IdxU)
     Arr(IdxU) = Arr(IdxL)
@@ -1468,7 +1470,7 @@ Private Sub QuickSortSwap(ByRef Arr As Variant, _
 End Sub
 
 Public Sub RemoveElement(ByRef Arr As Variant, _
-                         ByVal Index As Long)
+                         ByVal index As Long)
 ' ==========================================================================
 ' Description : Removes an element from an array of items
 '
@@ -1476,11 +1478,11 @@ Public Sub RemoveElement(ByRef Arr As Variant, _
 '               Index   The location of the item to remove
 ' ==========================================================================
 
-    Const sPROC As String = "RemoveElement"
+    Const PROCEDURE_NAME    As String = "RemoveElement"
 
-    Dim lIdx    As Long
-    Dim lLB     As Long
-    Dim lUB     As Long
+    Dim counter             As Long
+    Dim lowerBound          As Long
+    Dim upperBound          As Long
 
 
     '  On Error GoTo PROC_ERR
@@ -1495,20 +1497,20 @@ Public Sub RemoveElement(ByRef Arr As Variant, _
 
     ' ----------------------------------
 
-    lLB = LBound(Arr)
-    lUB = UBound(Arr)
+    lowerBound = LBound(Arr)
+    upperBound = UBound(Arr)
 
-    If ((Index < lLB) Or (Index > lUB)) Then
+    If ((index < lowerBound) Or (index > upperBound)) Then
         Err.Raise 9, , "Subscript out of Range"
         Exit Sub
     End If
 
-    For lIdx = Index To lUB - 1
-        Arr(lIdx) = Arr(lIdx + 1)
+    For counter = index To upperBound - 1
+        Arr(counter) = Arr(counter + 1)
     Next
 
     On Error GoTo PROC_ERR
-    ReDim Preserve Arr(lLB To lUB - 1)
+    ReDim Preserve Arr(lowerBound To upperBound - 1)
 
     ' ----------------------------------------------------------------------
 
@@ -1532,11 +1534,10 @@ PROC_ERR:
 
 End Sub
 
-Public Function StringToArray(ByVal Str As String, _
+Public Function StringToArray(ByVal stringToSplit As String, _
                      Optional ByVal Delimiter As String = " ", _
                      Optional ByVal Limit As Long = -1, _
-                     Optional ByVal Compare _
-                                 As VbCompareMethod = vbTextCompare) _
+                     Optional ByVal Compare As VbCompareMethod = vbTextCompare) _
              As Variant
 ' ==========================================================================
 ' Description : Convert a string to an array
@@ -1550,13 +1551,13 @@ Public Function StringToArray(ByVal Str As String, _
 ' Returns     : Variant
 ' ==========================================================================
 
-    Const sPROC As String = "StringToArray"
+    Const PROCEDURE_NAME    As String = "StringToArray"
 
-    Dim lIdx    As Long
-    Dim lLen    As Long
-    Dim lPos    As Long
+    Dim index               As Long
+    Dim lengthToSplit       As Long
+    Dim position            As Long
 
-    Dim vRtn    As Variant
+    Dim returnValue         As Variant
 
 
     On Error GoTo PROC_ERR
@@ -1567,7 +1568,7 @@ Public Function StringToArray(ByVal Str As String, _
     ' ---------------
 
     If (Len(Delimiter) > 0) Then
-        vRtn = Split(Str, Delimiter, Limit, Compare)
+        returnValue = Split(stringToSplit, Delimiter, Limit, Compare)
         GoTo PROC_EXIT
     End If
 
@@ -1575,28 +1576,28 @@ Public Function StringToArray(ByVal Str As String, _
     ' ----------------
 
     If (Limit > 0) Then
-        lLen = Limit
+        lengthToSplit = Limit
     Else
-        lLen = Len(Str)
+        lengthToSplit = Len(stringToSplit)
     End If
 
-    vRtn = Array()
-    ReDim vRtn(0 To lLen - 1)
+    returnValue = Array()
+    ReDim returnValue(0 To lengthToSplit - 1)
 
-    For lPos = 1 To lLen
-        lIdx = lPos - 1
-        vRtn(lIdx) = Mid$(Str, lPos, 1)
-    Next lPos
+    For position = 1 To lengthToSplit
+        index = position - 1
+        returnValue(index) = Mid$(stringToSplit, position, 1)
+    Next position
 
     ' ----------------------------------------------------------------------
 
 PROC_EXIT:
 
-    StringToArray = vRtn
+    StringToArray = returnValue
 
     On Error Resume Next
-    Erase vRtn
-    vRtn = Empty
+    Erase returnValue
+    'vRtn = Empty
 
     'Call Trace(tlMaximum, msMODULE, sPROC, gsPROC_EXIT)
     On Error GoTo 0
@@ -1630,16 +1631,16 @@ Public Function UniqueItemsInArray(ByRef Source As Variant, _
 ' Returns   : Variant
 ' ==========================================================================
 
-    Const sPROC As String = "UniqueItemsInArray"
+    Const PROCEDURE_NAME    As String = "UniqueItemsInArray"
 
-    Dim bMatched As Boolean
+    Dim isMatched           As Boolean
 
-    Dim lItemCt As Long
-    Dim lIdx    As Long
-    Dim lUB     As Long
+    Dim itemCount           As Long
+    Dim index               As Long
+    Dim upperBound          As Long
 
-    Dim vItems  As Variant  ' Array of items
-    Dim Element As Variant
+    Dim items               As Variant  ' Array of items
+    Dim Element             As Variant
 
 
     On Error GoTo PROC_ERR
@@ -1648,33 +1649,33 @@ Public Function UniqueItemsInArray(ByRef Source As Variant, _
     ' Retain the base of the source
     ' -----------------------------
 
-    vItems = Array()
-    ReDim vItems(LBound(Source) To LBound(Source))
-    lUB = LBound(Source) - 1
+    items = Array()
+    ReDim items(LBound(Source) To LBound(Source))
+    upperBound = LBound(Source) - 1
 
     ' Loop through the source data array
     ' ----------------------------------
     For Each Element In Source
         ' Reset the flag
         ' --------------
-        bMatched = False
+        isMatched = False
 
         ' Has the item been added?
         ' ------------------------
-        For lIdx = LBound(vItems) To UBound(vItems)
-            If (Element = vItems(lIdx)) Then
-                bMatched = True
+        For index = LBound(items) To UBound(items)
+            If (Element = items(index)) Then
+                isMatched = True
                 Exit For
             End If
-        Next lIdx
+        Next index
 
         ' If not in list, add the item
         ' ----------------------------
-        If ((Not bMatched) And (Not IsEmpty(Element))) Then
-            lItemCt = lItemCt + 1
-            lUB = lUB + 1
-            ReDim Preserve vItems(LBound(vItems) To lUB)
-            vItems(lUB) = Element
+        If ((Not isMatched) And (Not IsEmpty(Element))) Then
+            itemCount = itemCount + 1
+            upperBound = upperBound + 1
+            ReDim Preserve items(LBound(items) To upperBound)
+            items(upperBound) = Element
         End If
 
     Next Element
@@ -1684,17 +1685,17 @@ Public Function UniqueItemsInArray(ByRef Source As Variant, _
 PROC_EXIT:
 
     If Count Then
-        UniqueItemsInArray = CVar(lItemCt)
+        UniqueItemsInArray = CVar(itemCount)
     Else
-        UniqueItemsInArray = vItems
+        UniqueItemsInArray = items
     End If
 
     On Error Resume Next
 
     ' Release the allocated memory
     ' ----------------------------
-    Erase vItems
-    vItems = Empty
+    Erase items
+    'vItems = Empty
 
     'Call Trace(tlMaximum, msMODULE, sPROC, lItemCt)
     On Error GoTo 0

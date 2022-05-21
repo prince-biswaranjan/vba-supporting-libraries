@@ -1,4 +1,5 @@
 Attribute VB_Name = "MVBAStrings"
+'@IgnoreModule LineLabelNotUsed, ConstantNotUsed
 
 ' =================================================================================================
 ' Module      : MVBAStrings
@@ -132,12 +133,12 @@ Public Function FormatString(ByVal inputString As String, ParamArray replacement
 ' Comments    :
 ' =================================================================================================
 
-    Const PROCEDURE_NAME As String = "FormatString"
+    Const PROCEDURE_NAME    As String = "FormatString"
 
-    Dim formattedString    As String
-    Dim Index As Long
-    Dim placeholder As String
-    Dim replacement As String
+    Dim formattedString     As String
+    Dim index               As Long
+    Dim placeholder         As String
+    Dim replacement         As String
 
     '----------------------------------------------------------------------------------------------
     
@@ -146,14 +147,14 @@ Public Function FormatString(ByVal inputString As String, ParamArray replacement
     'Replace all placeholders
     '------------------------
     
-    For Index = LBound(replacements) To UBound(replacements)
+    For index = LBound(replacements) To UBound(replacements)
         
-        placeholder = "{" & Index & "}"
-        replacement = replacements(Index)
+        placeholder = "{" & index & "}"
+        replacement = replacements(index)
         
         formattedString = Replace(formattedString, placeholder, replacement)
         
-    Next Index
+    Next index
 
     '----------------------------------------------------------------------------------------------
     
@@ -175,21 +176,21 @@ Public Function Concat(ByVal Delimiter As String, ParamArray Params() As Variant
 
     Const PROCEDURE_NAME    As String = "Concat"
 
-    Dim sRtn    As String
-    Dim parameter As Variant
+    Dim returnValue         As String
+    Dim parameter           As Variant
 
     '----------------------------------------------------------------------------------------------
     
     For Each parameter In Params
         
-        If Len(sRtn) = 0 Then
+        If Len(returnValue) = 0 Then
             'First item
             '----------
-            sRtn = CStr(parameter)
+            returnValue = CStr(parameter)
         Else
             'Other Items
             '-----------
-            sRtn = FormatString("{0}{1}{2}", sRtn, Delimiter, CStr(parameter))
+            returnValue = FormatString("{0}{1}{2}", returnValue, Delimiter, CStr(parameter))
         End If
         
     Next parameter
@@ -200,7 +201,7 @@ Public Function Concat(ByVal Delimiter As String, ParamArray Params() As Variant
 
 PROC_EXIT:
     
-    Concat = sRtn
+    Concat = returnValue
 
     Exit Function
     
@@ -227,7 +228,7 @@ Public Function RemoveLineBreaks(ByVal inputString As String, Optional ByVal mul
 
     Const PROCEDURE_NAME    As String = "RemoveLineBreaks"
 
-    Dim sRtn                As String
+    Dim returnValue         As String
     Dim newLineCharacters   As Variant
     Dim newLineChar         As Variant
 
@@ -240,17 +241,17 @@ Public Function RemoveLineBreaks(ByVal inputString As String, Optional ByVal mul
                               vbCrLf, _
                               vbLf)
     
-    sRtn = inputString
+    returnValue = inputString
     
     For Each newLineChar In newLineCharacters
-        sRtn = Replace(sRtn, newLineChar, multiLineSeparator)
+        returnValue = Replace(returnValue, newLineChar, multiLineSeparator)
     Next newLineChar
     
     '----------------------------------------------------------------------------------------------
 
 PROC_EXIT:
     
-    RemoveLineBreaks = sRtn
+    RemoveLineBreaks = returnValue
 
     Exit Function
     
@@ -260,6 +261,6 @@ PROC_ERR:
 
     Resume PROC_EXIT
     
-
 End Function
+
 

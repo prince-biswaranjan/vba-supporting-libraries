@@ -1,4 +1,5 @@
 Attribute VB_Name = "MVBALogger"
+'@IgnoreModule ProcedureNotUsed, LineLabelNotUsed, ConstantNotUsed
 
 ' =================================================================================================
 ' Module      : MVBALogger
@@ -218,7 +219,7 @@ Public Sub WriteToLog(ByVal module As String, _
 
     Dim computerName        As String
     Dim userName            As String
-    Dim iFileNum            As Long
+    Dim fileNum             As Long
     Dim logFile             As String
     Dim logFileHeader       As String
     Dim logMessage          As String
@@ -242,7 +243,7 @@ Public Sub WriteToLog(ByVal module As String, _
     'If the log doesn't exist create
     'an empty file with header row
     '-------------------------------
-    iFileNum = FreeFile()
+    fileNum = FreeFile()
     
     If Not FileExists(logFile) Then
         
@@ -258,10 +259,10 @@ Public Sub WriteToLog(ByVal module As String, _
                                "Message", _
                                "ErrorNumber")
         
-        Open logFile For Append As #iFileNum
-        Print #iFileNum, logFileHeader
+        Open logFile For Append As #fileNum
+        Print #fileNum, logFileHeader
     Else
-        Open logFile For Append As #iFileNum
+        Open logFile For Append As #fileNum
     End If
     
     'Remove new line characters
@@ -280,9 +281,9 @@ Public Sub WriteToLog(ByVal module As String, _
                       logMessage, _
                       IIf(errNumber, errNumber, vbNullString))
     
-    Print #iFileNum, logEntry
+    Print #fileNum, logEntry
     
-    Close #iFileNum
+    Close #fileNum
     
     '----------------------------------------------------------------------------------------------
     
@@ -312,30 +313,28 @@ Private Function GetLoglevelDescription(ByVal level As LoggingLevel) As String
 
     Const PROCEDURE_NAME    As String = "GetLoglevelDescription"
 
-    Dim sRtn                As String
-
+    Dim returnValue         As String
 
     '----------------------------------------------------------------------------------------------
     
     Select Case level
         Case Fatal
-            sRtn = "[FATAL]"
+            returnValue = "[FATAL]"
         Case Warning
-            sRtn = "[WARN]"
+            returnValue = "[WARN]"
         Case Information
-            sRtn = "[INFO]"
+            returnValue = "[INFO]"
         Case Verbose
-            sRtn = "[DEBUG]"
+            returnValue = "[DEBUG]"
         Case Else
-            sRtn = "[Unknown]"
+            returnValue = "[Unknown]"
     End Select
-
 
     '----------------------------------------------------------------------------------------------
 
 PROC_EXIT:
     
-    GetLoglevelDescription = sRtn
+    GetLoglevelDescription = returnValue
 
     Exit Function
     
@@ -344,7 +343,6 @@ PROC_EXIT:
 PROC_ERR:
 
     Resume PROC_EXIT
-    
     
 End Function
 

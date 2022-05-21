@@ -7,13 +7,14 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
+'@IgnoreModule ProcedureNotUsed
 Option Explicit
 
 Private Const MODULE_NAME   As String = "MVBADatabase"
 
 Private Type T_MVBADatabase
-    ConnectionString As String
-    connection As ADODB.connection
+    ConnectionString    As String
+    connection          As ADODB.connection
 End Type
 
 Private this As T_MVBADatabase
@@ -43,22 +44,23 @@ Private Sub OpenConnection()
 End Sub
 
 Public Function GetRecordSet(ByVal sqlQuery As String) As ADODB.Recordset
-    Dim rs As ADODB.Recordset
+    
+    Dim results As ADODB.Recordset: Set results = New ADODB.Recordset
     
     OpenConnection
-    Set rs = New ADODB.Recordset
     
     'Debug.Print sqlQuery
-    rs.Open sqlQuery, this.connection
+    results.Open sqlQuery, this.connection
     
     'Debug.Print rs.GetString
     
-    Set GetRecordSet = rs
+    Set GetRecordSet = results
     
 End Function
 
 Public Sub ExecuteQuery(ByVal sqlQuery As String)
     Const PROC_NAME As String = "ExecuteQuery"
+    
     OpenConnection
     
     'Debug.Print sqlQuery
