@@ -53,8 +53,29 @@ Public Sub HideUnusedRowsInSheet(ByVal targetWorksheet As Worksheet)
     
 End Sub
 
+Public Function GetNextEmptyCellInColumn(ByVal startRange As Range) As Range
+'==================================================================================================
+'   Description :   Returns the next empty cell in column
+'   Parameters  :   startRange  -   Range from where the next empty cell will be calculated
+'   Returns     :   Range
+'==================================================================================================
 
-Public Function GetNextEmptyRange(ByVal startRange As Range, ByVal inColumn As Boolean) As Range
+    GetNextEmptyRange startRange, True
+    
+End Function
+
+Public Function GetNextEmptyCellInRow(ByVal startRange As Range) As Range
+'==================================================================================================
+'   Description :   Returns the next empty cell in row
+'   Parameters  :   startRange  -   Range from where the next empty cell will be calculated
+'   Returns     :   Range
+'==================================================================================================
+    
+    GetNextEmptyRange startRange, False
+    
+End Function
+
+Private Function GetNextEmptyRange(ByVal startRange As Range, ByVal inColumn As Boolean) As Range
 '==================================================================================================
 '   Description :   Returns the next empty range in column or row
 '   Parameters  :   startRange  -   Range from where the next empty range will be calculated
@@ -123,6 +144,7 @@ PROC_EXIT:
     
 PROC_ERR:
     Resume PROC_EXIT
+    
 End Sub
 
 Public Sub FreezeSheetPanes(ByVal sheet As Worksheet, ByVal rowNumber As Long, ByVal columnNumber As Long)
